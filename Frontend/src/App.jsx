@@ -1,121 +1,255 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
-import './App.css'
+import React from 'react';
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+  useLocation,
+} from "react-router-dom";
+import HomePage from './components/HomePage';
+import AuthPage from './components/AuthPage';
+import UserDashboard from './components/UserDashboard';
+import UserProfile from './components/UserProfile';
+import VerificationPending from './components/VerificationPending';
+import VerificationSuccess from './components/VerificationSuccess';
+import AuthService from './services/authService';
+import AdminDashboard from './components/AdminDashboard';
+import AdminUsers from './components/AdminUsers';
+import AdminEvents from './components/AdminEvents';
+import AdminAnnouncements from './components/AdminAnnouncements';
+import AdminSettings from './components/AdminSettings';
+import ReportsDashboard from './components/ReportsDashboard';
+import EventClubReports from './components/EventClubReports';
+import ExportReports from './components/ExportReports';
+import SubmitReview from './components/SubmitReview';
+import EventReviewList from './components/EventReviewList';
+import ReviewAnalytics from './components/ReviewAnalytics';
+import AdminPaymentSlips from './components/AdminPaymentSlips';
+import AdminEventBookings from './components/AdminEventBookings';
+import AdminAttendance from './components/AdminAttendance';
+import CreateEventPage from './components/CreateEventPage';
+import MyEventsPage from './components/MyEventsPage';
+import EventsPage from './components/EventsPage';
+import EventPaymentPage from './components/EventPaymentPage';
+import './App.css';
+
+// Protected Route Component
+const ProtectedRoute = ({ children, adminOnly = false }) => {
+  const location = useLocation();
+  const user = AuthService.getCurrentUser();
+  const hasToken = Boolean(AuthService.getAuthToken());
+
+  if (!user && !hasToken) {
+    // Not logged in - redirect to auth
+    return <Navigate to="/auth" state={{ from: location.pathname }} replace />;
+  }
+
+  // Role check for admin routes
+  if (adminOnly && user.user?.role !== 'admin') {
+    return <Navigate to="/" />;
+  }
+
+  // All good - show the protected component
+  return children;
+};
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [user, setUser] = React.useState(AuthService.getCurrentUser());
+
+  // Listen for auth changes globally
+  React.useEffect(() => {
+    const handleAuthChange = () => {
+      setUser(AuthService.getCurrentUser());
+    };
+    window.addEventListener('authChange', handleAuthChange);
+    window.addEventListener('storage', handleAuthChange);
+    return () => {
+      window.removeEventListener('authChange', handleAuthChange);
+      window.removeEventListener('storage', handleAuthChange);
+    };
+  }, []);
 
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1 className="text-4xl text-blue-500 font-bold underline">Get started with Tailwind CSS!</h1>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
+    <Router>
+      <Routes>
+        {/* Public Routes */}
+        <Route path="/" element={<HomePage />} />
+        <Route path="/auth" element={<AuthPage />} />
+        <Route path="/events" element={<EventsPage />} />
+        <Route path="/events/:eventId/payment" element={<EventPaymentPage />} />
 
-      <div className="ticks"></div>
+        {/* Verification Routes */}
+        <Route path="/verification-pending" element={<VerificationPending />} />
+        <Route path="/verify-email/:token" element={<VerificationSuccess />} />
 
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
+        {/* Protected Routes */}
+        <Route
+          path="/dashboard"
+          element={
+            <ProtectedRoute>
+              <UserDashboard />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/profile"
+          element={
+            <ProtectedRoute>
+              <UserProfile />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/create-event"
+          element={
+            <ProtectedRoute>
+              <CreateEventPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/my-events"
+          element={
+            <ProtectedRoute>
+              <MyEventsPage />
+            </ProtectedRoute>
+          }
+        />
 
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
-  )
+        <Route
+          path="/admin/dashboard"
+          element={
+            <ProtectedRoute adminOnly={true}>
+              <AdminDashboard />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/users"
+          element={
+            <ProtectedRoute adminOnly={true}>
+              <AdminUsers />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/events"
+          element={
+            <ProtectedRoute adminOnly={true}>
+              <AdminEvents />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/announcements"
+          element={
+            <ProtectedRoute adminOnly={true}>
+              <AdminAnnouncements />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/settings"
+          element={
+            <ProtectedRoute adminOnly={true}>
+              <AdminSettings />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/payment-slips"
+          element={
+            <ProtectedRoute adminOnly={true}>
+              <AdminPaymentSlips />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/event-bookings"
+          element={
+            <ProtectedRoute adminOnly={true}>
+              <AdminEventBookings />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/reports/dashboard"
+          element={
+            <ProtectedRoute adminOnly={true}>
+              <ReportsDashboard />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/reports/events"
+          element={
+            <ProtectedRoute adminOnly={true}>
+              <EventClubReports />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/reports/clubs"
+          element={
+            <ProtectedRoute adminOnly={true}>
+              <EventClubReports />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/reports/attendance"
+          element={
+            <ProtectedRoute adminOnly={true}>
+              <EventClubReports />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/reports/export"
+          element={
+            <ProtectedRoute adminOnly={true}>
+              <ExportReports />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/reviews/submit"
+          element={
+            <ProtectedRoute>
+              <SubmitReview />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/reviews/events"
+          element={
+            <ProtectedRoute adminOnly={true}>
+              <EventReviewList />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/reviews/analytics"
+          element={
+            <ProtectedRoute adminOnly={true}>
+              <ReviewAnalytics />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/attendance"
+          element={
+            <ProtectedRoute adminOnly={true}>
+              <AdminAttendance />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Catch all - redirect to home */}
+        <Route path="*" element={<Navigate to="/" />} />
+      </Routes>
+    </Router>
+  );
 }
 
-export default App
+export default App;
