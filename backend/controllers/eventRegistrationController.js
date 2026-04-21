@@ -815,4 +815,4 @@ export const markAttendanceByQr = async (req, res) => {
       error: error.message,
     });
   }
-};
+};//payment slip
