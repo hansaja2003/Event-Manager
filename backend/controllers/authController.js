@@ -79,7 +79,7 @@ export const registerUser = async (req, res) => {
       password,
       role,
     };
-
+// Add studentId and faculty for student and organizer roles
     if (role === "student" || role === "organizer") {
       userData.studentId = studentId;
       userData.faculty = faculty;
