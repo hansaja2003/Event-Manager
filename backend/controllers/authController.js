@@ -7,7 +7,7 @@ import sendEmail from "../utils/sendEmail.js";
 export const registerUser = async (req, res) => {
   try {
     const {
-      firstName,
+      firstName,//added  new field
       lastName,
       phone,
       email,
