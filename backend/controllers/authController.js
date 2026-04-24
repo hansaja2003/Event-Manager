@@ -32,7 +32,7 @@ export const registerUser = async (req, res) => {
     }
 
     if (password !== confirmPassword) {
-      return res.status(400).json({ message: "Passwords do not match" });
+      return res.status(400).json({ message: "Passwords do not match" });//updated message
     }
 
     // Require studentId for student & organizer
