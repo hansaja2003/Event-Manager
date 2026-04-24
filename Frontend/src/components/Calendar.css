@@ -1,0 +1,47 @@
+
+.rbc-calendar {
+    border: none !important;
+}
+
+.rbc-month-view {
+    border-radius: 20px !important;
+    border: 1px solid #f1f5f9 !important;
+    overflow: hidden;
+}
+
+
+.rbc-event {
+    background: linear-gradient(135deg, #2563eb 0%, #0891b2 100%) !important;
+    border-radius: 10px !important;
+    padding: 5px 10px !important;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1) !important;
+    border: none !important;
+}
+
+
+.rbc-toolbar button {
+    background: #f8fafc !important;
+    border: 1px solid #e2e8f0 !important;
+    color: #1e3a8a !important;
+    border-radius: 12px !important;
+    font-size: 0.9rem !important;
+    padding: 10px 20px !important;
+    transition: all 0.3s ease !important;
+}
+
+.rbc-toolbar button:hover {
+    background: #eff6ff !important;
+    color: #2563eb !important;
+    transform: translateY(-2px);
+}
+
+.rbc-toolbar button.rbc-active {
+    background: #1e3a8a !important;
+    color: white !important;
+    box-shadow: 0 4px 12px rgba(30, 58, 138, 0.2) !important;
+}
+
+
+.rbc-today {
+    background-color: #f0f9ff !important;
+}
