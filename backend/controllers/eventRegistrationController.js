@@ -1,6 +1,6 @@
 import Event from "../models/Event.js";
 import QRCode from "qrcode";
-import EventRegistration from "../models/EventRegistration.js";
+import EventRegistration from "../models/EventRegistration.js";//imported event registration model for payment slip and card registration
 
 const parseBoolean = (value, fallback = false) => {
   if (value === undefined || value === null || value === "") return fallback;
