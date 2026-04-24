@@ -13,7 +13,7 @@ const attendanceSchema = new mongoose.Schema(
       required: true,
     },
     registration: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: mongoose.Schema.Types.ObjectId,// Optional reference to the registration record
       ref: "Registration",
       default: null,
     },
