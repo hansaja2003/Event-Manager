@@ -26,7 +26,7 @@ const attendanceSchema = new mongoose.Schema(
       type: Date,
       default: null,
     },
-    markedBy: {
+    markedBy: {// Optional reference to the user who marked the attendance
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
       default: null,
