@@ -28,7 +28,7 @@ router.post("/login", loginUser);
 router.get("/verify-email/:token", verifyEmail);
 
 //get all students - admin
-router.get("/students", requiredSignIn, isAdmin, getAllStudents);
+router.get("/students", requiredSignIn, isAdmin, getAllStudents);//get all students - admin
 
 //get all organizers - admin
 router.get("/organizers", requiredSignIn, isAdmin, getAllOrganizers);
