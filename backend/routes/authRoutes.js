@@ -16,7 +16,7 @@ import {
   deleteUser
 } from "../controllers/authController.js";
 
-const router = express.Router();
+const router = express.Router();// Create router instance
 
 // Register route
 router.post("/register", registerUser);
