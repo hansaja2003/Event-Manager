@@ -13,7 +13,7 @@ const parseJsonIfNeeded = (value, fallback) => {
   if (typeof value !== "string") return value;
 
   try {
-    return JSON.parse(value);
+    return JSON.parse(value);// Attempt to parse if it's a JSON string
   } catch {
     return value;
   }
