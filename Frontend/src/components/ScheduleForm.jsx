@@ -34,7 +34,7 @@ const ScheduleForm = () => {
 
             if (response.data) {
                 alert("🗓️ Event Scheduled Successfully!");
-                // Form එක reset කරන්න
+                
                 setFormData({
                     title: '', category: 'academic', description: '',
                     startDate: '', startTime: '', venue: '', visibility: 'public'
