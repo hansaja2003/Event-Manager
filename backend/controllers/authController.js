@@ -152,7 +152,7 @@ export const registerUser = async (req, res) => {
   }
 };
 
-// LOGIN
+// LOGIN function
 export const loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
