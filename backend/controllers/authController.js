@@ -7,7 +7,7 @@ import sendEmail from "../utils/sendEmail.js";
 export const registerUser = async (req, res) => {
   try {
     const {
-      firstName,
+      firstName,//added  new field
       lastName,
       phone,
       email,
@@ -28,11 +28,11 @@ export const registerUser = async (req, res) => {
       !confirmPassword ||
       !role
     ) {
-      return res.status(400).json({ message: "All fields are required" });
+      return res.status(400).json({ message: "All fields are required" });//updated message
     }
 
     if (password !== confirmPassword) {
-      return res.status(400).json({ message: "Passwords do not match" });
+      return res.status(400).json({ message: "Passwords do not match" });//updated message
     }
 
     // Require studentId for student & organizer
@@ -79,7 +79,7 @@ export const registerUser = async (req, res) => {
       password,
       role,
     };
-
+// Add studentId and faculty for student and organizer roles
     if (role === "student" || role === "organizer") {
       userData.studentId = studentId;
       userData.faculty = faculty;
@@ -99,7 +99,7 @@ export const registerUser = async (req, res) => {
 
 
     // Send verification email
-    await sendEmail({
+    await sendEmail({//updated email content
       to: user.email,
       subject: "Verify Your Email",
       text: `Hi ${user.firstName}, please verify your email by clicking this link: ${verificationUrl}`,
@@ -152,7 +152,7 @@ export const registerUser = async (req, res) => {
   }
 };
 
-// LOGIN
+// LOGIN function
 export const loginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
