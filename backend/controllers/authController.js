@@ -99,7 +99,7 @@ export const registerUser = async (req, res) => {
 
 
     // Send verification email
-    await sendEmail({
+    await sendEmail({//updated email content
       to: user.email,
       subject: "Verify Your Email",
       text: `Hi ${user.firstName}, please verify your email by clicking this link: ${verificationUrl}`,
