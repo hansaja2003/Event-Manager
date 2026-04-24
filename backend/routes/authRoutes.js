@@ -37,7 +37,7 @@ router.get("/organizers", requiredSignIn, isAdmin, getAllOrganizers);
 router.get("/all-users", requiredSignIn, isAdmin, getAllUsers);
 
 //delete user - admin
-router.delete("/delete-user/:id", requiredSignIn, isAdmin, deleteUser);
+router.delete("/delete-user/:id", requiredSignIn, isAdmin, deleteUser);//delete user - admin
 
 //logout function 
 router.post("/logout", requiredSignIn, logoutUser);
