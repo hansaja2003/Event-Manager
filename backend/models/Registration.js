@@ -17,7 +17,7 @@ const registrationSchema = new mongoose.Schema(
       enum: ["Registered", "Cancelled", "Waitlisted"],
       default: "Registered",
     },
-    registeredAt: {
+    registeredAt: {// Timestamp of when the registration was made
       type: Date,
       default: Date.now,
     },

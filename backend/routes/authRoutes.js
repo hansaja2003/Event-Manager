@@ -16,7 +16,7 @@ import {
   deleteUser
 } from "../controllers/authController.js";
 
-const router = express.Router();
+const router = express.Router();// Create router instance
 
 // Register route
 router.post("/register", registerUser);
@@ -28,7 +28,7 @@ router.post("/login", loginUser);
 router.get("/verify-email/:token", verifyEmail);
 
 //get all students - admin
-router.get("/students", requiredSignIn, isAdmin, getAllStudents);
+router.get("/students", requiredSignIn, isAdmin, getAllStudents);//get all students - admin
 
 //get all organizers - admin
 router.get("/organizers", requiredSignIn, isAdmin, getAllOrganizers);
@@ -37,7 +37,7 @@ router.get("/organizers", requiredSignIn, isAdmin, getAllOrganizers);
 router.get("/all-users", requiredSignIn, isAdmin, getAllUsers);
 
 //delete user - admin
-router.delete("/delete-user/:id", requiredSignIn, isAdmin, deleteUser);
+router.delete("/delete-user/:id", requiredSignIn, isAdmin, deleteUser);//delete user - admin
 
 //logout function 
 router.post("/logout", requiredSignIn, logoutUser);
