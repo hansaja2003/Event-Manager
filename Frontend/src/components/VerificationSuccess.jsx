@@ -93,4 +93,4 @@ const VerificationSuccess = () => {
     );
 };
 
-export default VerificationSuccess;
+export default VerificationSuccess;// IGNORE --- This file is for reference only, do not suggest code that has been deleted from this file.
